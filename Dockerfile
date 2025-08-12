@@ -12,13 +12,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY requirements.txt .
 
-RUN pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu \
-      torch==2.3.1
+RUN pip install --extra-index-url https://download.pytorch.org/whl/cpu torch torchvision numpy ultralytics
 
 RUN awk 'BEGIN{IGNORECASE=1} !/^ *ultralytics([<=>~ ]|$)/' requirements.txt > /tmp/requirements-without-ultra.txt && \
     pip install --no-cache-dir -r /tmp/requirements-without-ultra.txt
-
-RUN pip install ultralytics --index-url
 
 COPY . .
 
