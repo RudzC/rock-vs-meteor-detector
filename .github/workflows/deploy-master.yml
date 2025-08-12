@@ -24,7 +24,7 @@ jobs:
 
             if [ ! -d ~/apps/meteorite_vs_rock_object_detection/.git ]; then
               rm -rf ~/apps/meteorite_vs_rock_object_detection
-              git clone --branch master --single-branch git@github.com/RudzC/rock-vs-meteor-detector.git ~/apps/meteorite_vs_rock_object_detection
+              git clone --branch master --single-branch git@github.com:RudzC/rock-vs-meteor-detector.git ~/apps/meteorite_vs_rock_object_detection
             else
               cd ~/apps/meteorite_vs_rock_object_detection
               git pull origin master
