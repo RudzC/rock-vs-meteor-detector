@@ -1,4 +1,4 @@
-name: Deploy Backend (scailz-feature)
+name: Deploy Meteor Rock Detection Model - Flask App
 
 on:
   push:
@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Feature Repository
+      - name: Checkout Master Repository
         uses: actions/checkout@v3
 
-      - name: Deploy Frontend Scailz to EC2 via SSH
+      - name: Deploy Meteor Rock Detection Model App to Oracle Instance via SSH
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -21,7 +21,6 @@ jobs:
           script: |
             set -e
 
-            # Ensure frontend folder exists or clone fresh
             if [ ! -d ~/apps/meteorite_vs_rock_object_detection/.git ]; then
               rm -rf ~/apps/meteorite_vs_rock_object_detection
               git clone --branch master --single-branch git@github.com/RudzC/rock-vs-meteor-detector.git ~/apps/meteorite_vs_rock_object_detection
