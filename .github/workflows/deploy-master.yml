@@ -32,7 +32,7 @@ jobs:
 
             cd ~/apps/meteorite_vs_rock_object_detection
 
+            sudo systemctl stop nginx || true
             docker rm -f meteorite_vs_rock_object_detection || true
             docker build -t meteorite_vs_rock_object_detection .
-
-            docker run -d -p 80:80 --name meteorite_vs_rock_object_detection meteorite_vs_rock_object_detection
+            docker run -d -p 80:80 --name meteorite_vs_rock_object_detection --restart unless-stopped meteorite_vs_rock_object_detection
