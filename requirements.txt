@@ -1,0 +1,6 @@
+flask~=3.1.0
+numpy~=1.26.4
+ultralytics~=8.3.177
+pillow~=11.2.1
+opencv-python-headless==4.10.0.84
+gunicorn

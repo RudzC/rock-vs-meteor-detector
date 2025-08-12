@@ -1,0 +1,21 @@
+# Ignore compiled Python bytecode files
+__pycache__/
+*.pyc
+
+venv/
+.venv/
+
+.DS_Store
+
+.vscode/
+.idea/
+
+build/
+dist/
+*.log
+*.tmp
+temp/
+
+# Ignore sensitive information or local configuration files
+.env
+!important.log
