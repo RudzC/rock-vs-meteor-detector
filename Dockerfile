@@ -22,5 +22,8 @@ RUN pip install --no-cache-dir --no-deps ultralytics==8.3.177
 
 COPY . .
 
-EXPOSE 4000
-CMD ["gunicorn","-w","2","-k","gthread","--threads","4","-b","0.0.0.0:4000","app:app"]
+# Listen on port 80 inside the container
+EXPOSE 80
+
+# Run gunicorn on port 80
+CMD ["gunicorn", "-w", "2", "-k", "gthread", "--threads", "4", "-b", "0.0.0.0:80", "app:app"]
