@@ -18,7 +18,7 @@ RUN pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu 
 RUN awk 'BEGIN{IGNORECASE=1} !/^ *ultralytics([<=>~ ]|$)/' requirements.txt > /tmp/requirements-without-ultra.txt && \
     pip install --no-cache-dir -r /tmp/requirements-without-ultra.txt
 
-RUN pip install --no-cache-dir ultralytics==8.3.177
+RUN pip install ultralytics --index-url
 
 COPY . .
 
