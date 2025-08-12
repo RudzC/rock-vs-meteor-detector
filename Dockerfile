@@ -13,12 +13,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY requirements.txt .
 
-# 👉 Install CPU-only torch first, then the rest
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu torch==2.3.1 && \
-    pip install --no-cache-dir -r requirements.txt
+    pip install --no-cache-dir torch==2.3.1 --index-url https://download.pytorch.org/whl/cpu
+
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --no-cache-dir -r <(grep -v 'torch' requirements.txt)
 
 COPY . .
 
 EXPOSE 4000
+
 CMD ["gunicorn","-w","2","-k","gthread","--threads","4","-b","0.0.0.0:4000","app:app"]
