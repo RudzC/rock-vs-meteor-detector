@@ -1,0 +1,43 @@
+name: Deploy Backend (scailz-feature)
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Feature Repository
+        uses: actions/checkout@v3
+
+      - name: Deploy Frontend Scailz to EC2 via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            set -e
+
+            # Ensure frontend folder exists or clone fresh
+            if [ ! -d ~/apps/meteorite_vs_rock_object_detection/.git ]; then
+              rm -rf ~/apps/meteorite_vs_rock_object_detection
+              git clone --branch master --single-branch git@github.com/RudzC/rock-vs-meteor-detector.git ~/apps/meteorite_vs_rock_object_detection
+            else
+              cd ~/apps/meteorite_vs_rock_object_detection
+              git pull origin master
+            fi
+
+            cd ~/apps/meteorite_vs_rock_object_detection
+
+            docker stop meteorite_vs_rock_object_detection || true
+            docker rm meteorite_vs_rock_object_detection || true
+            docker image rm meteorite_vs_rock_object_detection || true
+            docker container prune -f
+            docker image prune -f
+
+            docker build --no-cache -t meteorite_vs_rock_object_detection .
+
+            docker run -d -p 80:4000 --name meteorite_vs_rock_object_detection meteorite_vs_rock_object_detection
