@@ -3,6 +3,11 @@ from ultralytics import YOLO
 import numpy as np
 from PIL import Image
 import io
+import torch
+
+def get_device():
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    return device
 
 
 def handle_uploaded_image(file):
@@ -19,8 +24,11 @@ class YOLOModel:
     def __init__(self):
         folder_path = 'model/YOLO_BBoxMeteorRockDetector_Final_20_jul/detect/meteor_rock_detector'
         try:
+            self.device = get_device()
             self.model = YOLO(f'{folder_path}/args.yaml', task='rock-vs-meteor-detection')
             self.model.load(f'{folder_path}/weights/best.pt')
+            self.model.eval()
+            self.model.to(self.device)
         except Exception:
             self.model = YOLO(f'{folder_path}/weights/best.pt', task='rock-vs-meteor-detection')
 

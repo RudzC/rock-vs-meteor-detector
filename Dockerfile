@@ -12,15 +12,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY requirements.txt .
 
-RUN pip install --extra-index-url https://download.pytorch.org/whl/cpu torch torchvision numpy ultralytics
-
-RUN awk 'BEGIN{IGNORECASE=1} !/^ *ultralytics([<=>~ ]|$)/' requirements.txt > /tmp/requirements-without-ultra.txt && \
-    pip install --no-cache-dir -r /tmp/requirements-without-ultra.txt
+ARG INSTALL_MODE=cpu
+RUN if [ "$INSTALL_MODE" = "cpu" ]; then \
+      pip install --extra-index-url https://download.pytorch.org/whl/cpu torch torchvision numpy ultralytics && \
+      awk 'BEGIN{IGNORECASE=1} !/^ *(ultralytics|torch|torchvision|numpy)([<=>~ ]|$)/' requirements.txt > /tmp/requirements-without-ultra.txt && \
+      pip install --no-cache-dir -r /tmp/requirements-without-ultra.txt; \
+    else \
+      pip install --no-cache-dir -r requirements.txt; \
+    fi
 
 COPY . .
 
-# Listen on port 80 inside the container
 EXPOSE 80
 
-# Run gunicorn on port 80
 CMD ["gunicorn", "-w", "2", "-k", "gthread", "--threads", "4", "-b", "0.0.0.0:80", "app:app"]
