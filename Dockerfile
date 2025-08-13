@@ -14,10 +14,12 @@ COPY requirements.txt .
 
 ARG INSTALL_MODE=cpu
 RUN if [ "$INSTALL_MODE" = "cpu" ]; then \
+    	echo "Building with CPU mode" && \
       pip install --extra-index-url https://download.pytorch.org/whl/cpu torch torchvision numpy ultralytics && \
       awk 'BEGIN{IGNORECASE=1} !/^ *(ultralytics|torch|torchvision|numpy)([<=>~ ]|$)/' requirements.txt > /tmp/requirements-without-ultra.txt && \
       pip install --no-cache-dir -r /tmp/requirements-without-ultra.txt; \
     else \
+    	echo "Building with GPU mode" && \
       pip install --no-cache-dir -r requirements.txt; \
     fi
 
