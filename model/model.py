@@ -10,7 +10,6 @@ from ultralytics import YOLO
 
 logging.basicConfig(level=logging.DEBUG)
 
-
 def get_device():
     if torch.cuda.is_available():
         return torch.device("cuda")
@@ -23,7 +22,7 @@ def handle_uploaded_image(file):
     if file:
         image_bytes = file.read()
         image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
-        resized_image = image.resize(size=(610, 610))
+        resized_image = image.resize(size=(640, 640))
         image_np = np.array(resized_image)
         return image_np
     return None
