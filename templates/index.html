@@ -96,13 +96,30 @@
             border-radius: 8px;
             background: #f5f5f5;
         }
-         .iframe-disclaimer {
+        .iframe-disclaimer {
             font-weight: 600;
             color: #111;
             margin-top: 4px;
             text-align: left;
             max-width: 610px;
         }
+
+        #busy {
+            position: fixed;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #3F704D;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.2);
+            z-index: 1000;
+            display: none;
+        }
+
 
         @media (max-width: 700px) {
             iframe {
@@ -120,6 +137,10 @@
     <div class="content">
         <h1>Meteor VS. Rock Object Detector</h1>
         <p class="desc">Upload an image to detect if it’s a meteor or a rock.</p>
+
+        <!-- Fixed, non-intrusive status badge -->
+        <div id="busy" aria-live="polite">Generating prediction...</div>
+
         <form id="predict-form" method="POST" enctype="multipart/form-data" action="/predict" target="result-frame">
             <input id="file-input" type="file" name="file" required data-mime-type="image"
                    accept="image/jpeg,image/png,image/jpg" style="font-size:18px;"
@@ -139,15 +160,30 @@
         const fileInput = document.getElementById('file-input');
         const form = document.getElementById('predict-form');
         const resetBtn = document.getElementById('reset-btn');
+        const busy = document.getElementById('busy');
+        const uploadBtn = document.getElementById('upload-btn');
+        const resultFrame = document.querySelector('iframe[name="result-frame"]');
+
         form.addEventListener('submit', function (e) {
             if (!fileInput.value) {
                 e.preventDefault();
                 alert('Please upload an image');
+                return;
             }
+            busy.style.display = 'block';
+            uploadBtn.disabled = true;
         });
+
+        resultFrame.addEventListener('load', function () {
+            busy.style.display = 'none';
+            uploadBtn.disabled = false;
+        });
+
         resetBtn.addEventListener('click', function () {
             fileInput.value = '';
-            document.querySelector('iframe[name="result-frame"]').src = 'about:blank';
+            resultFrame.src = 'about:blank';
+            busy.style.display = 'none';
+            uploadBtn.disabled = false;
         });
     </script>
 </body>

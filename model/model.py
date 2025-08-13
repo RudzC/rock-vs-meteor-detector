@@ -1,13 +1,22 @@
 from flask import request, jsonify, send_file
-from ultralytics import YOLO
-import numpy as np
-from PIL import Image
 import io
+import logging
+from pathlib import Path
+
+import numpy as np
 import torch
+from PIL import Image
+from ultralytics import YOLO
+
+logging.basicConfig(level=logging.DEBUG)
+
 
 def get_device():
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    return device
+    if torch.cuda.is_available():
+        return torch.device("cuda")
+    if torch.backends.mps.is_available():
+        return torch.device("mps")
+    return torch.device("cpu")
 
 
 def handle_uploaded_image(file):
@@ -22,15 +31,26 @@ def handle_uploaded_image(file):
 
 class YOLOModel:
     def __init__(self):
-        folder_path = 'model/YOLO_BBoxMeteorRockDetector_Final_20_jul/detect/meteor_rock_detector'
+        logging.debug("Loading YOLO model initialized")
+
+        repo_root = Path(__file__).resolve().parents[1]
+        weights_path = repo_root / "model" / "YOLO_BBoxMeteorRockDetector_Final_20_jul" / "detect" / "meteor_rock_detector" / "weights" / "best.pt"
+
+        if not weights_path.exists():
+            raise FileNotFoundError(f"Weights not found at: {weights_path}")
+
+        self.device = get_device()
+        logging.debug(f"Selected device: {self.device}")
+
         try:
-            self.device = get_device()
-            self.model = YOLO(f'{folder_path}/args.yaml', task='rock-vs-meteor-detection')
-            self.model.load(f'{folder_path}/weights/best.pt')
+            self.model = YOLO(str(weights_path))
+            self.model.to(self.device.type)
             self.model.eval()
-            self.model.to(self.device)
-        except Exception:
-            self.model = YOLO(f'{folder_path}/weights/best.pt', task='rock-vs-meteor-detection')
+            logging.info("YOLO model loaded successfully.")
+        except Exception as e:
+            logging.exception("Failed to load YOLO model.")
+            raise
+
 
     def predict(self):
         if 'file' not in request.files:

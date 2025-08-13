@@ -35,4 +35,8 @@ jobs:
             sudo systemctl stop nginx || true
             docker rm -f meteorite_vs_rock_object_detection || true
             docker build -t meteorite_vs_rock_object_detection .
-            docker run -d -p 80:80 --name meteorite_vs_rock_object_detection --restart unless-stopped meteorite_vs_rock_object_detection
+            if command -v nvidia-smi &> /dev/null; then
+                docker run -d --gpus all -p 80:80 --name meteorite_vs_rock_object_detection --restart unless-stopped meteorite_vs_rock_object_detection
+            else
+                docker run -d --cpus 1.0 -p 80:80 --name meteorite_vs_rock_object_detection --restart unless-stopped meteorite_vs_rock_object_detection
+            fi
