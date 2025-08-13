@@ -1,190 +1,200 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <title>Meteor VS. Rock Object Detector</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;900&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="/static/public/meteor-clipart-md.ico">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Meteor VS. Rock Object Detector</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;900&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/x-icon" href="/static/public/meteor-clipart-md.ico">
 
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            overflow: hidden;
-        }
-        body {
-            position: relative;
-            background: #fff;
-            font-family: 'Montserrat', Arial, sans-serif;
-        }
-        .bg-layer {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-        }
-        #bg-meteor {
-            background-image: url('/static/public/meteor-2.png');
-            background-repeat: repeat;
-            background-size: 180px 180px;
-            background-position: 60px 60px;
-            opacity: 0.3;
-        }
-        .content {
-            position: relative;
-            z-index: 1;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            text-align: center;
-            padding: 0;
-        }
-        h1 {
-            margin: 0;
-            font-weight: 900;
-            font-size: clamp(36px, 6vw, 72px);
-            color: #B22222;
-            -webkit-text-stroke: 2px #000;
-            text-shadow:
-                1px 1px 0 #000,
-                -1px 1px 0 #000,
-                1px -1px 0 #000,
-                -1px -1px 0 #000;
-        }
-        .desc, h3 {
-            margin: 0;
-            font-size: clamp(18px, 2.2vw, 22px);
-            font-weight: 600;
-            color: #111;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-        input[type="file"] {
-            padding: 6px;
-            cursor: pointer;
-        }
-        .form-button {
-            padding: 10px 20px;
-            cursor: pointer;
-            background: #3ba7ff;
-            color: #000;
-            border: 2px solid #000;
-            border-radius: 8px;
-            font-weight: 700;
-        }
-        .form-button.reset {
-            background: #ff4d4d;
-        }
-        .form-button:active {
-            transform: translateY(1px);
-        }
-        input[type="submit"]:active {
-            transform: translateY(1px);
-        }
-        iframe {
-            width: 640px;
-            height: 640px;
-            border: 2px solid #000;
-            border-radius: 8px;
-            background: #f5f5f5;
-        }
-        .iframe-disclaimer {
-            font-weight: 600;
-            color: #111;
-            margin: 0;
-            text-align: left;
-            max-width: 640px;
-        }
-
-        #busy {
-            position: fixed;
-            top: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #3F704D;
-            color: #fff;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 14px;
-            box-shadow: 0 2px 8px rgba(0,0,0,.2);
-            z-index: 1000;
-            display: none;
-        }
-
-
-        @media (max-width: 700px) {
+        <style>
+            html, body {
+                height: 100%;
+                margin: 0;
+                overflow: hidden;
+            }
+            body {
+                position: relative;
+                background: #fff;
+                font-family: 'Montserrat', Arial, sans-serif;
+            }
+            .bg-layer {
+                position: fixed;
+                inset: 0;
+                pointer-events: none;
+                z-index: 0;
+            }
+            #bg-meteor {
+                background-image: url('/static/public/meteor-2.png');
+                background-repeat: repeat;
+                background-size: 180px 180px;
+                background-position: 60px 60px;
+                opacity: 0.3;
+            }
+            .content {
+                position: relative;
+                z-index: 1;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 16px;
+                text-align: center;
+                padding: 0;
+            }
+            h1 {
+                margin: 0;
+                font-weight: 900;
+                font-size: clamp(36px, 6vw, 72px);
+                color: #B22222;
+                -webkit-text-stroke: 2px #000;
+                text-shadow:
+                    1px 1px 0 #000,
+                    -1px 1px 0 #000,
+                    1px -1px 0 #000,
+                    -1px -1px 0 #000;
+            }
+            .desc, h3 {
+                margin: 0;
+                font-size: clamp(18px, 2.2vw, 22px);
+                font-weight: 600;
+                color: #111;
+            }
+            form {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            input[type="file"] {
+                padding: 6px;
+                cursor: pointer;
+            }
+            .form-button {
+                padding: 10px 20px;
+                cursor: pointer;
+                background: #3ba7ff;
+                color: #000;
+                border: 2px solid #000;
+                border-radius: 8px;
+                font-weight: 700;
+            }
+            .form-button.reset {
+                background: #ff4d4d;
+            }
+            .form-button:active {
+                transform: translateY(1px);
+            }
+            input[type="submit"]:active {
+                transform: translateY(1px);
+            }
+            .iframe-wrapper {
+                position: relative;
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+                margin-bottom: 12px;
+            }
             iframe {
-                width: 90vw;
-                height: 90vw;
+                width: 640px;
+                height: 640px;
+                border: 2px solid #000;
+                border-radius: 8px;
+                background: #f5f5f5;
             }
             .iframe-disclaimer {
-                font-size: 12px;
+                font-weight: 600;
+                color: #111;
+                margin: 0;
+                max-width: 640px;
+                writing-mode: vertical-rl;
+                transform: rotate(180deg);
+                text-align: center;
+                align-self: center;
             }
-        }
-    </style>
-</head>
-<body>
-    <div id="bg-meteor" class="bg-layer"></div>
-    <div class="content">
-        <h1>Meteor VS. Rock Object Detector</h1>
-        <p class="desc">Upload an image to detect if it’s a meteor or a rock.</p>
+            #busy {
+                position: fixed;
+                top: 80px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #3F704D;
+                color: #fff;
+                padding: 8px 12px;
+                border-radius: 6px;
+                font-weight: 700;
+                font-size: 14px;
+                box-shadow: 0 2px 8px rgba(0,0,0,.2);
+                z-index: 1000;
+                display: none;
+            }
 
-        <!-- Fixed, non-intrusive status badge -->
-        <div id="busy" aria-live="polite">Generating prediction...</div>
 
-        <form id="predict-form" method="POST" enctype="multipart/form-data" action="/predict" target="result-frame">
-            <input id="file-input" type="file" name="file" required data-mime-type="image"
-                   accept="image/jpeg,image/png,image/jpg" style="font-size:18px;"
-                   title="You think you have a meteor rock and not sure upload the image from you computer and find out!" />
-            <div style="display:flex; gap:8px; justify-content:center;">
-                <input id="upload-btn" type="submit" value="Upload" class="form-button" />
-                <button id="reset-btn" type="button" class="form-button reset">Reset</button>
+            @media (max-width: 700px) {
+                iframe {
+                    width: 90vw;
+                    height: 90vw;
+                }
+                .iframe-disclaimer {
+                    font-size: 12px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="bg-meteor" class="bg-layer"></div>
+        <div class="content">
+            <h1>Meteor VS. Rock Object Detector</h1>
+            <p class="desc">Upload an image to detect if it’s a meteor or a rock.</p>
+
+            <div id="busy" aria-live="polite">Generating prediction...</div>
+
+            <form id="predict-form" method="POST" enctype="multipart/form-data" action="/predict" target="result-frame">
+                <input id="file-input" type="file" name="file" required data-mime-type="image"
+                       accept="image/jpeg,image/png,image/jpg" style="font-size:18px;"
+                       title="You think you have a meteor rock and not sure upload the image from you computer and find out!" />
+                <div style="display:flex; gap:8px; justify-content:center;">
+                    <input id="upload-btn" type="submit" value="Upload" class="form-button" />
+                    <button id="reset-btn" type="button" class="form-button reset">Reset</button>
+                </div>
+            </form>
+            <h3>Model Prediction*</h3>
+            <div class="iframe-wrapper">
+                <div class="iframe-disclaimer">
+                *This model may produce inaccurate predictions.
+                </div>
+                <iframe name="result-frame"></iframe>
             </div>
-        </form>
-        <h3>Model Prediction*</h3>
-        <iframe name="result-frame"></iframe>
-        <div class="iframe-disclaimer">
-            *This model may produce incorrect predictions.
         </div>
-    </div>
-    <script>
-        const fileInput = document.getElementById('file-input');
-        const form = document.getElementById('predict-form');
-        const resetBtn = document.getElementById('reset-btn');
-        const busy = document.getElementById('busy');
-        const uploadBtn = document.getElementById('upload-btn');
-        const resultFrame = document.querySelector('iframe[name="result-frame"]');
+        <script>
+            const fileInput = document.getElementById('file-input');
+            const form = document.getElementById('predict-form');
+            const resetBtn = document.getElementById('reset-btn');
+            const busy = document.getElementById('busy');
+            const uploadBtn = document.getElementById('upload-btn');
+            const resultFrame = document.querySelector('iframe[name="result-frame"]');
 
-        form.addEventListener('submit', function (e) {
-            if (!fileInput.value) {
-                e.preventDefault();
-                alert('Please upload an image');
-                return;
-            }
-            busy.style.display = 'block';
-            uploadBtn.disabled = true;
-        });
+            form.addEventListener('submit', function (e) {
+                if (!fileInput.value) {
+                    e.preventDefault();
+                    alert('Please upload an image');
+                    return;
+                }
+                busy.style.display = 'block';
+                uploadBtn.disabled = true;
+            });
 
-        resultFrame.addEventListener('load', function () {
-            busy.style.display = 'none';
-            uploadBtn.disabled = false;
-        });
+            resultFrame.addEventListener('load', function () {
+                busy.style.display = 'none';
+                uploadBtn.disabled = false;
+            });
 
-        resetBtn.addEventListener('click', function () {
-            fileInput.value = '';
-            resultFrame.src = 'about:blank';
-            busy.style.display = 'none';
-            uploadBtn.disabled = false;
-        });
-    </script>
-</body>
-</html>
+            resetBtn.addEventListener('click', function () {
+                fileInput.value = '';
+                resultFrame.src = 'about:blank';
+                busy.style.display = 'none';
+                uploadBtn.disabled = false;
+            });
+        </script>
+    </body>
+    </html>
