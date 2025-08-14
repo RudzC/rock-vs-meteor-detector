@@ -1,3 +1,5 @@
+<img loading="lazy" width="625" height="400" src="static/demo/meteor-shower-background-concept-free-vector.jpg"  alt="hero-img"/>  
+
 # Rock vs. Meteor Detector - Flask App
 
 ### Detect meteorites vs. rocks in uploaded images using a YOLOv11 model trained on the [Meteor vs. Rock Dataset](https://universe.roboflow.com/aiprojects-jxzlb/merged_meteorvsrock) 
@@ -57,11 +59,14 @@ Go to: http://localhost:4000
 ### App Usage
 
 1. Navigate and load application in browser using the above provided local URL.
+![Landing Page](static/demo/home-web.png)
 2. On the home page click on the choose file input form and select an image containing the Meteorite or Rock that you wish the model to classify
-3. After selecting the desired image click the upload button to trigger the models' detect method.
-4. In just a few seconds the image will be displayed showcasing the models' prediction label and accuracy score. 
+3. After selecting the desired image click the upload button to run the model prediction. A green alert will be displayed on successful uploads.
+4. It may take a few seconds then an image should be displayed showcasing the models' prediction label and accuracy score.
+![](/static/demo/demo-upload.gif)
 
-*The reset button can be used to reset the Input and Output displayed on the screen.*
+- **Reset Action**: The reset button can be used to reset the Input and Output displayed on the screen.*
+![](/static/demo/demo-reset.gif)
 
 ---
 
