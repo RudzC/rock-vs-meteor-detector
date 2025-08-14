@@ -1,0 +1,2 @@
+HOSTED_APP_URL:http://158.180.235.149/
+PROJECT_SLIDES_URL:https://docs.google.com/presentation/d/1XVVmjyOImtlBS3YWG4Jj_KMGMzItOrMVVYu2lT0puac/edit?usp=sharing
