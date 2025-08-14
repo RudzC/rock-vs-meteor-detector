@@ -1,4 +1,4 @@
-<img loading="lazy" width="625" height="400" src="static/demo/meteor-shower-background-concept-free-vector.jpg"  alt="hero-img"/>  
+<img loading="lazy" width="100%" height="auto" src="static/demo/meteor-shower-background-concept-free-vector.jpg"  alt="hero-img"/>  
 
 # Rock vs. Meteor Detector - Flask App
 
@@ -58,7 +58,7 @@ Clone, Build and Run on **GPU** (Optional):
 ```shell
 git clone https://github.com/RudzC/rock-vs-meteor-detector.git && cd rock-vs-meteor-detector
 docker build -t meteorite_vs_rock_object_detection:gpu --build-arg INSTALL_MODE=gpu .
-docker run --rm --gpus all -p 4000:80 --name meteor-rock meteorite_vs_rock_object_detection:gpu
+docker run -d --gpus all -p 4000:80 --name meteor-rock meteorite_vs_rock_object_detection:gpu
 ```
 
 *View the app at: http://localhost:4000/*

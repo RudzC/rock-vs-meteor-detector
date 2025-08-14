@@ -13,6 +13,8 @@ build/
 dist/
 *.log
 *.tmp
+*.tar
+
 temp/
 
 .env
