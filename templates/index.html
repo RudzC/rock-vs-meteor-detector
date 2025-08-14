@@ -129,6 +129,40 @@
                 display: none;
             }
 
+            .input-with-tooltip{display:inline-flex;align-items:center;gap:6px;position:relative}
+
+            .tooltip {
+                position: relative;
+                display:inline-flex;
+                align-items:center;
+                justify-content:center;
+                width:22px;
+                height:22px;
+                border-radius:50%;
+                color: #B22222;
+                border:2px solid #B22222;
+                font-weight: 700;
+                font-size: 12px;
+            }
+
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: 210px;
+                background-color: black;
+                color: #fff;
+                text-align: center;
+                padding: 6px 0;
+                border-radius: 6px;
+                position: absolute;
+                z-index: 1;
+                left: 20px;
+                top: 15px;
+            }
+
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+                opacity: 1;
+            }
 
             @media (max-width: 700px) {
                 iframe {
@@ -150,9 +184,14 @@
             <div id="busy" aria-live="polite">Generating prediction...</div>
 
             <form id="predict-form" method="POST" enctype="multipart/form-data" action="/predict" target="result-frame">
-                <input id="file-input" type="file" name="file" required data-mime-type="image"
-                       accept="image/jpeg,image/png,image/jpg" style="font-size:18px;"
-                       title="You think you have a meteor rock and not sure upload the image from you computer and find out!" />
+                <div class="input-with-tooltip">
+                    <input id="file-input" type="file" name="file" required data-mime-type="image"
+                       accept="image/jpeg,image/png,image/jpg" style="font-size:18px;"/>
+                    <div class="tooltip">i
+                      <span class="tooltiptext">You think you have a meteor rock and not sure upload the image from you computer and find out!</span>
+                    </div>
+                </div>
+
                 <div style="display:flex; gap:8px; justify-content:center;">
                     <input id="upload-btn" type="submit" value="Upload" class="form-button" />
                     <button id="reset-btn" type="button" class="form-button reset">Reset</button>
