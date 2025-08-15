@@ -49,7 +49,7 @@ docker build -t meteorite_vs_rock_object_detection:latest --build-arg INSTALL_MO
             
 Run container:
 ```shell
-docker run -d --cpus 1.0 -p 4000:80 --name meteorite_vs_rock_object_detection --restart unless-stopped meteorite_vs_rock_object_detection
+docker run -d --cpus 1.0 -p 4000:80 --name meteor-rock meteorite_vs_rock_object_detection:latest
 ```
 
 *View the app at: http://localhost:4000/*
